@@ -5,8 +5,7 @@ const cartItems = document.getElementById('cart__items');
 const totalQuantity = document.getElementById('totalQuantity');
 const totalPrice = document.getElementById('totalPrice');
 
-// Utilisation de la méthode des promesses pour une meilleure performances en cas de grand nombres de produits
-// Fonction qui récupère un canapé et son id
+// Fonction qui récupère un canapé
 const getOneProduct = (productId) => {
   return new Promise((resolve) => {
     fetch('http://localhost:3000/api/products/' + productId).then(response => response.json())
@@ -240,11 +239,11 @@ const formValidation = () => {
     fetch(`http://localhost:3000/api/products/order`, {
       headers: headers, method: 'post', body: JSON.stringify(dataToSend)
     })
-      .then(responseCallBack)
+      .then(response => response.json())
       .then((result) => {
         document.location.href = './confirmation.html?orderid=' + result.orderId;
       })
-      .catch(errorCallBack);
+      .catch(error => { console.log(error) });
   });
 }
 

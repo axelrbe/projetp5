@@ -39,6 +39,8 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     .then(implementProductInfo)
     .catch(errorCallBack);
 
+
+// Evenements pour récupérer le couleur et la quantité choisis par l'utilisateurs
 document.getElementById('colors').addEventListener('change', (e) => {
     selectedColor = e.target.value
 });
@@ -62,7 +64,7 @@ document.getElementById('addToCart').addEventListener('click', () => {
     if (storedData) {
         basket = JSON.parse(storedData)
     }
-    // Récupérer l'index dans le panier du canapé ayant la couleur sélectionner et l'id de ce produit
+    // Récupérer le canapé ayant la couleur sélectionner et l'id de ce produit
     const kanapIndex = basket.findIndex((product) => {
         return product.id == productId && product.color == selectedColor
     });
@@ -78,6 +80,6 @@ document.getElementById('addToCart').addEventListener('click', () => {
         basket.push(newKanap);
     }
     alert('Votre produits a bien été ajouté au panier !')
-    // Reconvertir le localstorage en chaine de caractère
+    // Défini le panier dans le localstorage et le reconverti en chaine de caractère
     localStorage.axelRibeiroP5 = JSON.stringify(basket);
 });
