@@ -42,15 +42,15 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 
 // Evenements pour récupérer le couleur et la quantité choisis par l'utilisateurs
 document.getElementById('colors').addEventListener('change', (e) => {
-    selectedColor = e.target.value
+    selectedColor = e.target.value;
 });
 
 document.getElementById('quantity').addEventListener('change', (e) => {
     if (e.target.value < 0) {
-        alert('Veillez à renseigner une valeur positive')
+        alert('Veillez à renseigner une valeur positive');
         return;
     } else {
-        selectedQuantity = e.target.value
+        selectedQuantity = e.target.value;
     }
 });
 
@@ -71,7 +71,7 @@ document.getElementById('addToCart').addEventListener('click', () => {
     }
     // Récupérer le canapé ayant la couleur sélectionner et l'id de ce produit
     const kanapIndex = basket.findIndex((product) => {
-        return product.id == productId && product.color == selectedColor
+        return product.id == productId && product.color == selectedColor;
     });
     // Si panier vide => ajouter le canapé et ses info au panier mais si canapé déjà présent dans le panier => augmenter la quantité 
     if (kanapIndex > -1) {

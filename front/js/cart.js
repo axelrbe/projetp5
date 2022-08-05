@@ -83,7 +83,7 @@ const displayBasketLine = (kanap) => {
       </div>
       <div class="cart__item__content__settings">
         <div class="cart__item__content__settings__quantity">
-          <p>Qté : ${kanap.quantity}</p>
+          <p class="productQuantity" >Qté : ${kanap.quantity}</p>
           <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${kanap.quantity}">
         </div>
         <div class="cart__item__content__settings__delete">
@@ -121,9 +121,23 @@ const addDeleteProductsListener = () => {
 //====================Fonction pour augmenter la quantité dans le panier=======================
 const upQuantity = () => {
   const quantityUp = document.querySelectorAll('.itemQuantity');
+  const productQuantity = document.querySelectorAll('.productQuantity');
+
+  for (let i = 0; i < productQuantity.length; i++) {
+    quantityUp[i].addEventListener('change', (e) => {
+      if (e.target.value > 0) {
+        productQuantity[i].innerText = 'Qté : ' + e.target.value;
+      }
+    })
+  }
 
   for (let i = 0; i < storageKanaps.length; i++) {
     quantityUp[i].addEventListener('change', (e) => {
+      if (e.target.value < 0) {
+        alert('Il est impossible de choisir une valeur négative');
+        e.target.value = e.target.value;
+        return;
+      }
       // Récupérer l'article en entier puis récupérer la couleur et l'id 
       const articleParent = e.target.parentNode.parentNode.parentNode.parentNode;
       let idKanap = articleParent.dataset.id;
@@ -159,7 +173,7 @@ const formValidation = () => {
   const emailErrorMsg = document.getElementById("emailErrorMsg");
 
   // Regex pour controler les données inscrites par les utilisateurs
-  const regexName = /^[a-z ,.'-ç]+$/i;
+  const regexName = /^[a-zA-Z\-çéèàäëïâêî]+$/;
   const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const regexAddress = /^[a - zA - Z0 - 9\s,'-âéè]*$/;
 
