@@ -46,7 +46,12 @@ document.getElementById('colors').addEventListener('change', (e) => {
 });
 
 document.getElementById('quantity').addEventListener('change', (e) => {
-    selectedQuantity = e.target.value
+    if (e.target.value < 0) {
+        alert('Veillez à renseigner une valeur positive')
+        return;
+    } else {
+        selectedQuantity = e.target.value
+    }
 });
 
 //========================Fonction d'ajout d'un produit au panier=======================

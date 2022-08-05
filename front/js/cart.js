@@ -52,7 +52,7 @@ const displayBasket = (values) => {
     const rawPrice = Number(apiKanap.quantity) * Number(apiKanap.price);
     totalPrice_ += rawPrice;
     // Ajouter la fonction displayBasketLine à la variable "innerHTML" pour afficher les canapés dans le panier
-    innerHTML += displayBasketLine(apiKanap, rawPrice);
+    innerHTML += displayBasketLine(apiKanap);
 
     return apiKanap
   })
@@ -70,7 +70,7 @@ const displayBasket = (values) => {
 };
 
 // Fonction qui contient le texte à implanter avec les données mise à jour
-const displayBasketLine = (kanap, rawPrice) => {
+const displayBasketLine = (kanap) => {
   return `<article class="cart__item" data-id="${kanap._id}" data-color="${kanap.color}">
     <div class="cart__item__img">
       <img src=${kanap.imageUrl} alt=${kanap.altTxt}>
@@ -79,7 +79,7 @@ const displayBasketLine = (kanap, rawPrice) => {
       <div class="cart__item__content__description">
         <h2>${kanap.name}</h2>
         <p>${kanap.color}</p>
-        <p>${rawPrice} €</p>
+        <p>${kanap.price} €</p>
       </div>
       <div class="cart__item__content__settings">
         <div class="cart__item__content__settings__quantity">
@@ -107,11 +107,11 @@ const addDeleteProductsListener = () => {
       // Récuperer l'id et la couleur du produit qui va être supprimer
       let idDeleteKanap = articleParent.dataset.id;
       let colorDeleteKanap = articleParent.dataset.color;
-      // Je sélectionne les produits qui ne seront pas supprimer avec ".filter" en comparant l'id et couleur
+      // Je récupère les produits qui ne seront pas supprimer avec ".filter" en comparant l'id et couleur
       storageKanaps = storageKanaps.filter(el => el.id !== idDeleteKanap || el.color !== colorDeleteKanap);
-      // Transformer le localstorage en format JSON 
+      // Ajouter les produits qui ne sont pas supprimer au localstorage
       localStorage.setItem("axelRibeiroP5", JSON.stringify(storageKanaps));
-      // Supprimer également le canapé de la page html
+      // Supprimer le canapé de la page html
       alert("Ce produit a été supprimer du panier");
       articleParent.remove();
     })
@@ -234,8 +234,11 @@ const formValidation = () => {
       products: storageKanaps.map((product) => product.id)
     }
     // fetch pour envoyer les info avec la methode post 
+    // Créer un nouvel objet header
     const headers = new Headers()
+    // Lui ajoute du contenu de type JSON
     headers.append('Content-Type', 'application/json')
+    // Précise la méthode 'post' pour envoyer 'dataToSend' en format JSON
     fetch(`http://localhost:3000/api/products/order`, {
       headers: headers, method: 'post', body: JSON.stringify(dataToSend)
     })
